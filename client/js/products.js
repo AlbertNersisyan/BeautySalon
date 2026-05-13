@@ -17,14 +17,16 @@ document.addEventListener('DOMContentLoaded', async () => {
             return;
         }
 
-        const defaultImg = 'https://images.unsplash.com/photo-1596462502278-27bf85033e5a?q=80&w=800&auto=format&fit=crop';
+        const defaultImg = 'https://images.unsplash.com/photo-1596462502278-27bf85033e5a?w=800&q=80';
 
         grid.innerHTML = products.map(product => {
             const imgUrl = product.images && product.images.length > 0 ? product.images[0] : defaultImg;
             return `
                 <div class="card">
                     <div class="card-img-container">
-                        <img src="${imgUrl}" alt="${product.name}" class="card-img">
+                        <img src="${imgUrl}" alt="${product.name}" class="card-img"
+                             onerror="this.onerror=null;this.src='${defaultImg}'">
+                    </div>
                     </div>
                     <div class="card-content">
                         <h3 class="card-title">${product.name}</h3>

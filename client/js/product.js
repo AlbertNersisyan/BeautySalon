@@ -18,19 +18,20 @@ document.addEventListener('DOMContentLoaded', async () => {
         // ORIGINAL: const product = await fetchAPI(`/api/products/${productId}`);
         const product = await fetchAPI(`/api/products/${productId}`);
 
-        let imagesHtml = '';
-        let thumbnailsHtml = '';
+        const defaultImg = 'https://images.unsplash.com/photo-1596462502278-27bf85033e5a?w=800&q=80';
 
         if (product.images && product.images.length > 0) {
-            imagesHtml = `<img src="${product.images[0]}" alt="${product.name}" id="main-image" class="main-image">`;
+            imagesHtml = `<img src="${product.images[0]}" alt="${product.name}" id="main-image" class="main-image"
+                          onerror="this.onerror=null;this.src='${defaultImg}'">`;
 
             thumbnailsHtml = '<div class="thumbnail-container">';
             product.images.forEach((img, index) => {
-                thumbnailsHtml += `<img src="${img}" alt="thumbnail" class="thumbnail ${index === 0 ? 'active' : ''}" onclick="changeImage('${img}', this)">`;
+                thumbnailsHtml += `<img src="${img}" alt="thumbnail" class="thumbnail ${index === 0 ? 'active' : ''}"
+                    onerror="this.onerror=null;this.src='${defaultImg}'"
+                    onclick="changeImage('${img}', this)">`;
             });
             thumbnailsHtml += '</div>';
         } else {
-            const defaultImg = 'https://images.unsplash.com/photo-1596462502278-27bf85033e5a?q=80&w=800&auto=format&fit=crop';
             imagesHtml = `<img src="${defaultImg}" alt="${product.name}" id="main-image" class="main-image">`;
         }
 
