@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Services | Lumière Beauty Salon</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="icon" type="image/png" href="../icon.png">
+</head>
+
+<body>
+    <!-- Navbar -->
+    <header>
+        <div class="container navbar">
+            <a href="/index.html" class="logo">LUMIÈRE</a>
+            <ul class="nav-links">
+                <li><a href="/index.html">Home</a></li>
+                <li><a href="/services.html">Services</a></li>
+                <li><a href="/products.html">Products</a></li>
+                <li><a href="/contact.html">Contact</a></li>
+                <li>
+                    <a href="/cart.html" class="cart-icon-link" title="Cart">
+                        🛍️
+                        <span class="cart-badge" id="cart-count" style="display:none;">0</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </header>
+
+    <!-- Header Banner -->
+    <section class="hero"
+        style="height: 40vh; background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1521590832167-7bfc17484d20?q=80&w=1470&auto=format&fit=crop');">
+        <div class="hero-content container">
+            <h1>Our Services</h1>
+            <p>Tailored beauty experiences crafted just for you.</p>
+        </div>
+    </section>
+
+    <!-- Services List -->
+    <section class="container">
+        <h2 class="section-title">What We Offer</h2>
+        <div id="services-grid" class="grid-3">
+            <div class="loader">Loading services...</div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-bottom" style="border: none; padding-top: 0">
+                <p>&copy; 2026 Lumière Beauty Salon. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="/js/api.js"></script>
+    <script src="/js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const grid = document.getElementById('services-grid');
+            try {
+                const services = await fetchAPI('/api/services');
+                if (services.length === 0) {
+                    grid.innerHTML = '<p style="text-align:center;">No services found.</p>';
+                    return;
+                }
+
+                grid.innerHTML = services.map(service => `
+                    <div class="card">
+                        <div class="card-img-container">
+                            <img src="${service.image || 'https://images.unsplash.com/photo-1522337660859-02fbefca4702?q=80&w=800&auto=format&fit=crop'}" alt="${service.name}" class="card-img">
+                        </div>
+                        <div class="card-content">
+                            <h3 class="card-title">${service.name}</h3>
+                            <p class="card-desc">${service.description}</p>
+                            <p class="card-price">$${service.price.toFixed(2)}</p>
+                            <a href="/contact.html?service=${encodeURIComponent(service.name)}" class="btn">Book Now</a>
+                        </div>
+                    </div>
+                `).join('');
+            } catch (error) {
+                grid.innerHTML = '<p style="text-align:center;">Failed to load services.</p>';
+            }
+        });
+    </script>
+</body>
+
+</html>

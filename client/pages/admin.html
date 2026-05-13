@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard | Lumière</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="icon" type="image/png" href="../icon.png">
+    <style>
+        .admin-nav {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        .admin-nav-btn {
+            background: none;
+            border: none;
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: var(--gray-dark);
+            cursor: pointer;
+            padding-bottom: 5px;
+            border-bottom: 2px solid transparent;
+        }
+        .admin-nav-btn.active {
+            color: var(--accent-color);
+            border-bottom-color: var(--accent-color);
+        }
+        .section-hidden { display: none; }
+    </style>
+</head>
+<body style="background-color: var(--primary-color);">
+    <!-- Navbar -->
+    <header>
+        <div class="container navbar">
+            <a href="/index.html" class="logo">LUMIÈRE ADMIN</a>
+            <ul class="nav-links">
+                <li><a href="/index.html">Live Site</a></li>
+                <li><button onclick="logout()" class="btn btn-outline" style="border-color: red; color: red; padding: 6px 15px;">Logout</button></li>
+            </ul>
+        </div>
+    </header>
+
+    <section class="container" style="padding: 40px 0;">
+        <h1 style="margin-bottom: 30px;">Dashboard</h1>
+        
+        <div class="admin-nav">
+            <button class="admin-nav-btn active" onclick="switchTab('products')">Products</button>
+            <button class="admin-nav-btn" onclick="switchTab('services')">Services</button>
+        </div>
+
+        <div class="admin-container">
+            <!-- Form Section -->
+            <div style="background: var(--white); padding: 30px; border-radius: 8px; box-shadow: var(--shadow);">
+                <h2 id="form-title" style="margin-bottom: 20px;">Add New Product</h2>
+                <form id="admin-form">
+                    <input type="hidden" id="item-id">
+                    <input type="hidden" id="item-type" value="products">
+                    
+                    <div class="form-group">
+                        <label>Name</label>
+                        <input type="text" id="item-name" class="form-control" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Price ($)</label>
+                        <input type="number" id="item-price" class="form-control" step="0.01" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Description</label>
+                        <textarea id="item-desc" class="form-control" required></textarea>
+                    </div>
+                    
+                    <!-- Dynamic Image Input area -->
+                    <div class="form-group" id="image-group-products">
+                        <label>Upload Images</label>
+                        <input type="file" id="item-images" class="form-control" multiple accept="image/*" required>
+                    </div>
+
+                    <div class="form-group section-hidden" id="image-group-services">
+                        <label>Upload Image</label>
+                        <input type="file" id="item-image" class="form-control" accept="image/*">
+                    </div>
+                    
+                    <button type="submit" class="btn" id="submit-btn" style="width: 100%;">Save Item</button>
+                    <button type="button" class="btn btn-outline" id="cancel-btn" style="width: 100%; margin-top: 10px; display: none;" onclick="resetForm()">Cancel Edit</button>
+                </form>
+            </div>
+
+            <!-- List Section -->
+            <div>
+                <h2 id="list-title" style="margin-bottom: 20px;">Manage Products</h2>
+                <div id="admin-list" class="admin-list">
+                    <div class="loader">Loading...</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Scripts -->
+    <script src="/js/api.js"></script>
+    <script src="/js/admin.js"></script>
+</body>
+</html>

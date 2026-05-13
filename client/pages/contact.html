@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us | Lumière Beauty Salon</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="icon" type="image/png" href="../icon.png">
+</head>
+
+<body style="background-color: var(--primary-color);">
+    <!-- Navbar -->
+    <header>
+        <div class="container navbar">
+            <a href="/index.html" class="logo">LUMIÈRE</a>
+            <ul class="nav-links">
+                <li><a href="/index.html">Home</a></li>
+                <li><a href="/services.html">Services</a></li>
+                <li><a href="/products.html">Products</a></li>
+                <li><a href="/contact.html">Contact</a></li>
+                <li>
+                    <a href="/cart.html" class="cart-icon-link" title="Cart">
+                        🛍️
+                        <span class="cart-badge" id="cart-count" style="display:none;">0</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </header>
+
+    <section class="container" style="padding: 60px 0;">
+        <div style="text-align: center; margin-bottom: 50px;">
+            <h1 style="font-size: 3rem; margin-bottom: 15px;">Get In Touch</h1>
+            <p style="font-size: 1.1rem; color: var(--gray-dark);">We'd love to hear from you. Book an appointment or
+                ask a question.</p>
+        </div>
+
+        <div
+            style="display: grid; grid-template-columns: 1fr 1fr; gap: 50px; background: var(--white); padding: 50px; border-radius: 8px; box-shadow: var(--shadow);">
+
+            <!-- Contact Form -->
+            <div>
+                <h2 style="margin-bottom: 30px;">Send us a message</h2>
+                <form id="contact-form"
+                    onsubmit="event.preventDefault(); alert('Message sent successfully! We will get back to you soon.'); this.reset();">
+                    <div class="form-group">
+                        <label>Name</label>
+                        <input type="text" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Message</label>
+                        <textarea id="contact-message" class="form-control" rows="5" required></textarea>
+                    </div>
+                    <button type="submit" class="btn">Send Message</button>
+                </form>
+            </div>
+
+            <!-- Salon Info -->
+            <div style="background: var(--primary-color); padding: 40px; border-radius: 8px;">
+                <h2 style="margin-bottom: 30px;">Visit Our Salon</h2>
+
+                <div style="margin-bottom: 25px;">
+                    <strong style="display: block; font-size: 1.1rem; margin-bottom: 5px;">📍 Address</strong>
+                    <p style="color: var(--gray-dark);">123 Elegance Boulevard<br>New York, NY 10001</p>
+                </div>
+
+                <div style="margin-bottom: 25px;">
+                    <strong style="display: block; font-size: 1.1rem; margin-bottom: 5px;">📞 Phone</strong>
+                    <p style="color: var(--gray-dark);">+1 (555) 123-4567</p>
+                </div>
+
+                <div style="margin-bottom: 25px;">
+                    <strong style="display: block; font-size: 1.1rem; margin-bottom: 5px;">✉️ Email</strong>
+                    <p style="color: var(--gray-dark);">contact@lumieresalon.com</p>
+                </div>
+
+                <div>
+                    <strong style="display: block; font-size: 1.1rem; margin-bottom: 5px;">🕒 Working Hours</strong>
+                    <ul style="list-style: none; color: var(--gray-dark);">
+                        <li style="display: flex; justify-content: space-between; margin-bottom: 5px;"><span>Mon -
+                                Fri:</span> <span>9:00 AM - 8:00 PM</span></li>
+                        <li style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                            <span>Saturday:</span> <span>10:00 AM - 6:00 PM</span></li>
+                        <li style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                            <span>Sunday:</span> <span>Closed</span></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-bottom" style="border: none; padding-top: 0">
+                <p>&copy; 2026 Lumière Beauty Salon. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="/js/main.js"></script>
+    <script>
+        // Auto-fill message if ?service= is in URL
+        document.addEventListener('DOMContentLoaded', () => {
+            const params = new URLSearchParams(window.location.search);
+            const service = params.get('service');
+            if (service) {
+                const msgArea = document.getElementById('contact-message');
+                if (msgArea) {
+                    msgArea.value = `Hi, I would like to book the "${service}" service. Please let me know your availability.`;
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

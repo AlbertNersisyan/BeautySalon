@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lumière | Beauty Salon</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="icon" type="image/png" href="../icon.png">
+</head>
+
+<body>
+    <!-- Navbar -->
+    <header>
+        <div class="container navbar">
+            <a href="/index.html" class="logo">LUMIÈRE</a>
+            <ul class="nav-links">
+                <li><a href="/index.html">Home</a></li>
+                <li><a href="/services.html">Services</a></li>
+                <li><a href="/products.html">Products</a></li>
+                <li><a href="/contact.html">Contact</a></li>
+                <li>
+                    <a href="/cart.html" class="cart-icon-link" title="Cart">
+                        🛍️
+                        <span class="cart-badge" id="cart-count" style="display:none;">0</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content container">
+            <h1>Elevate Your Beauty</h1>
+            <p>Experience luxury treatments tailored for your unique style. Our expert stylists and premium products
+                ensure you leave feeling radiant.</p>
+            <a href="/services.html" class="btn">Discover Services</a>
+            <a href="/contact.html" class="btn btn-outline"
+                style="border-color: white; color: white; margin-left: 15px;">Book Now</a>
+        </div>
+    </section>
+
+    <!-- Featured Services (Dynamic) -->
+    <section class="container">
+        <h2 class="section-title">Our Signature Services</h2>
+        <div id="featured-services" class="grid-3">
+            <div class="loader">Loading services...</div>
+            <!-- Populated by JS -->
+        </div>
+        <div style="text-align: center; margin-top: 40px;">
+            <a href="/services.html" class="btn btn-outline">View All Services</a>
+        </div>
+    </section>
+
+    <!-- Featured Products (Dynamic) -->
+    <section style="background-color: var(--white); padding: 80px 0;">
+        <div class="container">
+            <h2 class="section-title">Premium Rituals</h2>
+            <div id="featured-products" class="grid-3">
+                <div class="loader">Loading products...</div>
+                <!-- Populated by JS -->
+            </div>
+            <div style="text-align: center; margin-top: 40px;">
+                <a href="/products.html" class="btn btn-outline">Shop All Products</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>LUMIÈRE</h3>
+                    <p>Elevating beauty through precision, care, and luxury treatments.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Links</h3>
+                    <p><a href="/services.html">Services</a></p>
+                    <p><a href="/products.html">Products</a></p>
+                    <p><a href="/contact.html">Contact Us</a></p>
+                </div>
+                <div class="footer-section">
+                    <h3>Contact</h3>
+                    <p>123 Elegance Blvd, NY 10001</p>
+                    <p>contact@lumieresalon.com</p>
+                    <p>+1 (555) 123-4567</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Lumière Beauty Salon. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="/js/api.js"></script>
+    <script src="/js/main.js"></script>
+    <script>
+        // Load featured immediately on index
+        document.addEventListener('DOMContentLoaded', async () => {
+            try {
+                // Fetch first 3 services
+                const services = await fetchAPI('/api/services');
+                const featuredServices = services.slice(0, 3);
+                const servicesContainer = document.getElementById('featured-services');
+
+                if (featuredServices.length === 0) {
+                    servicesContainer.innerHTML = '<p style="text-align:center;">No services available.</p>';
+                } else {
+                    servicesContainer.innerHTML = featuredServices.map(service => `
+                        <div class="card">
+                            <div class="card-img-container">
+                                <img src="${service.image || 'https://images.unsplash.com/photo-1522337660859-02fbefca4702?q=80&w=800&auto=format&fit=crop'}" alt="${service.name}" class="card-img">
+                            </div>
+                            <div class="card-content">
+                                <h3 class="card-title">${service.name}</h3>
+                                <p class="card-desc">${service.description.substring(0, 80)}...</p>
+                                <p class="card-price">$${service.price.toFixed(2)}</p>
+                                <a href="/contact.html?service=${encodeURIComponent(service.name)}" class="btn">Book Now</a>
+                            </div>
+                        </div>
+                    `).join('');
+                }
+
+                // Fetch first 3 products
+                const products = await fetchAPI('/api/products');
+                const featuredProducts = products.slice(0, 3);
+                const productsContainer = document.getElementById('featured-products');
+
+                if (featuredProducts.length === 0) {
+                    productsContainer.innerHTML = '<p style="text-align:center;">No products available.</p>';
+                } else {
+                    productsContainer.innerHTML = featuredProducts.map(product => `
+                        <div class="card">
+                            <div class="card-img-container">
+                                <img src="${product.images && product.images[0] ? product.images[0] : 'https://images.unsplash.com/photo-1596462502278-27bf85033e5a?q=80&w=800&auto=format&fit=crop'}" alt="${product.name}" class="card-img">
+                            </div>
+                            <div class="card-content">
+                                <h3 class="card-title">${product.name}</h3>
+                                <p class="card-price">$${product.price.toFixed(2)}</p>
+                                <a href="/product.html?id=${product._id}" class="btn">View Product</a>
+                            </div>
+                        </div>
+                    `).join('');
+                }
+            } catch (err) {
+                console.error(err);
+                document.getElementById('featured-services').innerHTML = '<p style="text-align:center;">Failed to load.</p>';
+                document.getElementById('featured-products').innerHTML = '<p style="text-align:center;">Failed to load.</p>';
+            }
+        });
+    </script>
+</body>
+
+</html>
