@@ -1,3 +1,8 @@
+// ============================================================
+//  product.js  –  STATIC MODE
+//  Reads a single product from STATIC_PRODUCTS by _id query param
+// ============================================================
+
 document.addEventListener('DOMContentLoaded', async () => {
     const urlParams = new URLSearchParams(window.location.search);
     const productId = urlParams.get('id');
@@ -9,14 +14,16 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     try {
+        // STATIC: fetchAPI looks up the product in STATIC_PRODUCTS (no server needed)
+        // ORIGINAL: const product = await fetchAPI(`/api/products/${productId}`);
         const product = await fetchAPI(`/api/products/${productId}`);
-        
+
         let imagesHtml = '';
         let thumbnailsHtml = '';
-        
+
         if (product.images && product.images.length > 0) {
             imagesHtml = `<img src="${product.images[0]}" alt="${product.name}" id="main-image" class="main-image">`;
-            
+
             thumbnailsHtml = '<div class="thumbnail-container">';
             product.images.forEach((img, index) => {
                 thumbnailsHtml += `<img src="${img}" alt="thumbnail" class="thumbnail ${index === 0 ? 'active' : ''}" onclick="changeImage('${img}', this)">`;
@@ -26,6 +33,8 @@ document.addEventListener('DOMContentLoaded', async () => {
             const defaultImg = 'https://images.unsplash.com/photo-1596462502278-27bf85033e5a?q=80&w=800&auto=format&fit=crop';
             imagesHtml = `<img src="${defaultImg}" alt="${product.name}" id="main-image" class="main-image">`;
         }
+
+        const firstImage = product.images && product.images.length > 0 ? product.images[0] : '';
 
         container.innerHTML = `
             <div class="product-single">
@@ -39,8 +48,13 @@ document.addEventListener('DOMContentLoaded', async () => {
                     <div class="description">
                         <p>${product.description.replace(/\n/g, '<br>')}</p>
                     </div>
-                    <button class="btn" style="width: 100%; padding: 15px; font-size: 1.1rem;" onclick="addToCart('${product._id}', '${product.name}', ${product.price}, '${product.images && product.images.length > 0 ? product.images[0] : ''}')">Add to Cart</button>
-                    <p id="cart-msg" style="color: var(--accent-color); font-weight: 500; margin-top: 15px; display: none;">Added to your beauty bag!</p>
+                    <button class="btn" style="width: 100%; padding: 15px; font-size: 1.1rem;"
+                        onclick="addToCart('${product._id}', '${product.name}', ${product.price}, '${firstImage}')">
+                        Add to Cart
+                    </button>
+                    <p id="cart-msg" style="color: var(--accent-color); font-weight: 500; margin-top: 15px; display: none;">
+                        Added to your beauty bag!
+                    </p>
                 </div>
             </div>
         `;
@@ -51,7 +65,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 function changeImage(src, element) {
     document.getElementById('main-image').src = src;
-    
+
     // Update active state
     document.querySelectorAll('.thumbnail').forEach(el => el.classList.remove('active'));
     element.classList.add('active');
