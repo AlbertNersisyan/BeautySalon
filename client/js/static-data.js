@@ -21,13 +21,7 @@ const IMG = {
 };
 
 const STATIC_PRODUCTS = [
-    {
-        _id: 'prod-001',
-        name: 'Rose Gold Glow Serum',
-        price: 48.99,
-        description: 'A luxurious vitamin C serum infused with 24K rose-gold particles and hyaluronic acid. Visibly brightens skin tone, reduces fine lines, and delivers an all-day luminous glow.\n\nSuitable for all skin types. Apply 2–3 drops to clean skin every morning before moisturiser.',
-        images: [IMG.serum, IMG.skincare, IMG.cream]
-    },
+  
     {
         _id: 'prod-002',
         name: 'Velvet Noir Lip Collection',
